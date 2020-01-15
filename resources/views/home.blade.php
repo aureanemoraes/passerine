@@ -379,31 +379,13 @@
                 gender: $('#gender_bird').val(),
                 category: $('#category').val()
             };
-            /*
-
-            $.ajax({
-                type: "POST",
-                url: "/birds",
-                data: bird,
-                success: function(data) {
-                    bird = JSON.parse(data);
-                    bird = displayBirdLine(bird);
-                    $('#birdInfoCards').append(bird);
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.");
-                }
-            });
 
             $.post('/birds', bird, function(data) {
-                newBird = JSON.parse(data);
-                bird = displayBirdLine(newBird);
+                bird = JSON.parse(data);
+                bird = displayBirdLine(bird);
                 $('#birdInfoCards').append(bird);
                 console.log(data);
             });
-            /*.fail(function(xhr, status, error) {
-                alert("Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.");
-            });*/
         }
 
         $("#formUserInfo").submit( function(event){
@@ -418,7 +400,6 @@
                 saveBirdInfo();
             } else {
                 newBird();
-
             }
             $("#birdInfoModal").modal('hide');
         });
