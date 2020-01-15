@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Str;
+$DATABASE_URL=parse_url('DATABASE_URL');
+
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -15,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
