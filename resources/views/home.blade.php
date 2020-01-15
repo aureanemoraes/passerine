@@ -196,6 +196,7 @@
             $.getJSON('/user', function(data) {
                 if (!data.name) name = 'Não informado'; else name = data.name;
                 $('#nameInfo').append(name);
+                $('#id').val(data.id);
                 line = displayUserLine(data);
                 $('#userInfoTable>tbody').append(line);
             });
@@ -292,8 +293,7 @@
         function loadBirdsInfo() {
             $.getJSON('/birds', function(data) {
                 if(data.length === 0) {
-                    code =  '<p>Você não possui pássaros cadastrados. ';
-                    $('#birdInfoCards').append(code);
+                    alert('Você ainda não possui pássaros cadastrados.');
                 }
                 for(i=0;i <data.length; i++) {
                     bird = displayBirdLine(data[i]);
@@ -365,6 +365,7 @@
             $('#action').val('create');
             $('#birdInfoModal').modal('show');
         }
+
         function newBird() {
             bird = {
                 user_id: $('#id').val(),
@@ -374,13 +375,32 @@
                 gender: $('#gender_bird').val(),
                 category: $('#category').val()
             };
+            /*
 
+            $.ajax({
+                type: "POST",
+                url: "/birds",
+                data: bird,
+                success: function(data) {
+                    bird = JSON.parse(data);
+                    bird = displayBirdLine(bird);
+                    $('#birdInfoCards').append(bird);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.");
+                }
+            });
+        }
+*/
             $.post('/birds', bird, function(data) {
                 newBird = JSON.parse(data);
                 bird = displayBirdLine(newBird);
                 $('#birdInfoCards').append(bird);
-                //console.log(newBird);
+                console.log(data);
             });
+            /*.fail(function(xhr, status, error) {
+                alert("Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.");
+            });*/
         }
 
         $("#formUserInfo").submit( function(event){

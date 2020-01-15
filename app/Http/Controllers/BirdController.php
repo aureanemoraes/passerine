@@ -35,7 +35,8 @@ class BirdController extends Controller
         $bird->gender = $request->gender;
         $bird->category = $request->category;
         $bird->save();
-        return json_encode($bird);
+        if($bird) return json_encode($bird);
+        else return response('Houve um erro ao salvar suas modificações. Por favor, tente novamente.', 500);
     }
 
     public function store(Request $request) {
@@ -48,6 +49,7 @@ class BirdController extends Controller
         $bird->category = $request->category;
         $bird->user()->associate($user);
         $bird->save();
-        return json_encode($bird);
+        if($bird) return json_encode($bird);
+        else return response('Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.', 500);
     }
 }
