@@ -28,9 +28,11 @@
             </div>
             <button type="button" class="btn btn-sm btn-link" onClick="editUserInfo()">Editar</button>
         </div>
-
-        <div class='card-deck' id="birdInfoCards" style="margin: 1em;">
+        <div class='card-columns' id="birdInfoCards" style="margin: 1em;">
         </div>
+    </div>
+    <div class="card-footer">
+        <button type="button" class="btn btn-sm btn-success" onClick="newBirdModal()">Novo pássaro!</button>
     </div>
 
     <!-- Modal User -->
@@ -104,6 +106,7 @@
                     <!-- Formulário para edição de dados do Pássaro -->
                     <form class="form-horizontal" id="formBirdInfo">
                         <input type="hidden" id="id">
+                        <input type="hidden" id="action">
 
                         <div class="form-group">
                             <label for="anilhaCode" class="control-label">Código de Anilha</label>
@@ -288,6 +291,10 @@
 
         function loadBirdsInfo() {
             $.getJSON('/birds', function(data) {
+                if(data.length === 0) {
+                    code =  '<p>Você não possui pássaros cadastrados. ';
+                    $('#birdInfoCards').append(code);
+                }
                 for(i=0;i <data.length; i++) {
                     bird = displayBirdLine(data[i]);
                     $('#birdInfoCards').append(bird);
@@ -302,6 +309,7 @@
                 $('#age_bird').val(data.age);
                 $('#gender_bird').val(data.gender);
                 $('#category').val(data.category);
+                $('#action').val('edit');
                 $('#birdInfoModal').modal('show');
             });
         }
@@ -348,6 +356,33 @@
             });
         }
 
+        function newBirdModal() {
+            $('#anilhaCode').val('');
+            $('#name_bird').val('');
+            $('#age_bird').val('');
+            $('#gender_bird').val('');
+            $('#category').val('');
+            $('#action').val('create');
+            $('#birdInfoModal').modal('show');
+        }
+        function newBird() {
+            bird = {
+                user_id: $('#id').val(),
+                name: $('#name_bird').val(),
+                anilhaCode: $('#anilhaCode').val(),
+                age: $('#age_bird').val(),
+                gender: $('#gender_bird').val(),
+                category: $('#category').val()
+            };
+
+            $.post('/birds', bird, function(data) {
+                newBird = JSON.parse(data);
+                bird = displayBirdLine(newBird);
+                $('#birdInfoCards').append(bird);
+                //console.log(newBird);
+            });
+        }
+
         $("#formUserInfo").submit( function(event){
             event.preventDefault();
             saveUserInfo();
@@ -356,7 +391,12 @@
 
         $("#formBirdInfo").submit( function(event){
             event.preventDefault();
-            saveBirdInfo();
+            if ($("#action").val() == "edit") {
+                saveBirdInfo();
+            } else {
+                newBird();
+
+            }
             $("#birdInfoModal").modal('hide');
         });
 

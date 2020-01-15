@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Bird;
+use App\User;
 
 class BirdController extends Controller
 {
@@ -33,6 +34,19 @@ class BirdController extends Controller
         $bird->age = $request->age;
         $bird->gender = $request->gender;
         $bird->category = $request->category;
+        $bird->save();
+        return json_encode($bird);
+    }
+
+    public function store(Request $request) {
+        $bird = new Bird();
+        $user = User::find($request->user_id);
+        $bird->anilhaCode = $request->anilhaCode;
+        $bird->name = $request->name;
+        $bird->age = $request->age;
+        $bird->gender = $request->gender;
+        $bird->category = $request->category;
+        $bird->user()->associate($user);
         $bird->save();
         return json_encode($bird);
     }

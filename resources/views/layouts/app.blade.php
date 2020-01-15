@@ -7,6 +7,9 @@
             body {
                 padding: 1em;
             }
+            .card-columns {
+                column-count: 2;
+            }
         </style>
     </head>
     <body>
@@ -24,9 +27,3 @@
     </body>
 </html>
 
-
-<!--
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
-  </nav>
--->
