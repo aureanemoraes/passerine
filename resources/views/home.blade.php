@@ -234,11 +234,15 @@
                     element = $('#userInfoTable>tbody>tr>td');
                     if (element) {
                         if (!data.cpf) cpf = 'Não informado'; else cpf = data.cpf;
+                        if (!data.name) name = 'Não informado'; else name = data.name;
                         if (!data.age) age = 'Não informado'; else age = data.age + ' anos';
                         if (!data.gender) gender = 'Não informado';
                         else if (data.gender === "M") gender = "Masculino";
                         else gender = "Feminino";
                         if (!data.email) email = 'Não informado'; else email = data.email;
+
+                        nameElement = $('#nameInfo');
+                        if(nameElement) nameElement[0].textContent = name;
 
                         element[0].textContent = cpf;
                         element[1].textContent = age;
@@ -390,8 +394,7 @@
                     alert("Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.");
                 }
             });
-        }
-*/
+
             $.post('/birds', bird, function(data) {
                 newBird = JSON.parse(data);
                 bird = displayBirdLine(newBird);
