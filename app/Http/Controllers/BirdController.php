@@ -52,4 +52,13 @@ class BirdController extends Controller
         if($bird) return json_encode($bird);
         else return response('Houve um erro ao salvar o novo pássaro. Por favor, tente novamente.', 500);
     }
+
+    public function destroy($anilhaCode) {
+        $bird = Bird::where('anilhaCode', '=', $anilhaCode)->first();
+        if(isset($bird)) {
+            $bird->delete();
+            return response('OK', 200);
+        }
+        return response('Erro', 500);
+    }
 }

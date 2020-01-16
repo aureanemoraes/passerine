@@ -265,7 +265,7 @@
             else gender = "Feminino";
             if (!data.category) category = 'Não informado'; else category = data.category;
 
-            bird = "<div class='card'>" +
+            bird = '<div class="card" id="' + anilhaCode + 'Card">' +
                         "<div class='card-body'>" +
                             '<h5 class="card-title" id="' + anilhaCode + 'Name">' + name + '</h5>' +
                                 "<div class='table-responsive-sm'>" +
@@ -289,6 +289,7 @@
                         "</div>" +
                         "<div class='card-footer'>" +
                             '<small class="text-muted"><button type="button" class="btn btn-sm btn-link" onClick="editBirdsInfo(' + "'" + anilhaCode + "'" + ')">Editar</button></small>' +
+                            '<small class="text-muted"><button type="button" class="btn btn-sm btn-danger" onClick="deleteBird(' + "'" + anilhaCode + "'" + ')">Excluir</button></small>' +
                         "</div>" +
                     "</div>" ;
             return bird;
@@ -385,6 +386,21 @@
                 bird = displayBirdLine(bird);
                 $('#birdInfoCards').append(bird);
                 console.log(data);
+            });
+        }
+
+        function deleteBird(pk){
+            $.ajax({
+                type: "DELETE",
+                url: "/birds/" + pk,
+                context: this,
+                success: function(msg) {
+                    cardId = '#' + pk + 'Card';
+                    $(cardId).remove();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
             });
         }
 
